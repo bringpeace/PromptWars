@@ -42,6 +42,18 @@ export const authOptions: AuthOptions = {
           });
         }
 
+        if (credentials.email === "guest@example.com") {
+          // Reset score and answers for guest user every time they log in
+          await prisma.userAnswer.deleteMany({
+            where: { userId: user.id },
+          });
+          await prisma.userProgress.upsert({
+            where: { userId: user.id },
+            update: { totalScore: 0, rewardPoints: 0 },
+            create: { userId: user.id, totalScore: 0, rewardPoints: 0 },
+          });
+        }
+
         return { id: user.id, email: user.email, name: user.name };
       },
     }),

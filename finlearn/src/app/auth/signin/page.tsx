@@ -75,7 +75,7 @@ export default function SignIn() {
                 <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
               ) : (
                 <>
-                  <span className="relative z-10 font-bold text-lg">Quick Start Hub</span>
+                  <span className="relative z-10 font-bold text-lg">Guest Login</span>
                   <ArrowRight className="relative z-10 ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </>
               )}
