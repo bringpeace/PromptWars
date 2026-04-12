@@ -3,8 +3,9 @@ import { authOptions, prisma } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { onboardingQuestions } from "@/data/questions";
 import Link from "next/link";
-import { BookOpen, Award, TrendingUp, Layers } from "lucide-react";
+import { BookOpen, Award, TrendingUp, Layers, PlayCircle } from "lucide-react";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
+import { YouTubeEmbed } from '@next/third-parties/google';
 import ClearScoreButton from "@/components/ClearScoreButton";
 
 export default async function Home() {
@@ -93,6 +94,16 @@ export default async function Home() {
             <p className="text-text-muted">Test your knowledge with quick interactive quizzes.</p>
           </div>
         </Link>
+      </div>
+
+      <h2 className="text-2xl font-bold mb-6 mt-10 flex items-center gap-2">
+        <PlayCircle className="text-primary" /> Featured Lesson
+      </h2>
+      <div className="rounded-2xl overflow-hidden glass p-4 max-w-3xl">
+        <p className="text-text-muted mb-4">Dive into the 50/30/20 budget rule to understand how to split your income effectively.</p>
+        <div className="rounded-xl overflow-hidden shadow-lg border border-white/5">
+          <YouTubeEmbed videoid="6_u0S_3x9J0" params="controls=1" />
+        </div>
       </div>
     </div>
   );
