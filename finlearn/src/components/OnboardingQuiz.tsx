@@ -6,7 +6,7 @@ import { submitAnswer } from "@/actions/progress";
 import { CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 
 export default function OnboardingQuiz({ questions, answeredIds }: { questions: Question[], answeredIds: string[] }) {
-  const unanswered = questions.filter(q => !answeredIds.includes(q.id));
+  const [unanswered] = useState(() => questions.filter(q => !answeredIds.includes(q.id)));
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; explanation: string; correctIndex: number } | null>(null);
@@ -94,7 +94,7 @@ export default function OnboardingQuiz({ questions, answeredIds }: { questions: 
             onClick={handleNext}
             className="w-full flex justify-center items-center gap-2 rounded-xl bg-white text-background-app px-6 py-4 font-bold transition-transform hover:scale-[1.02]"
           >
-            {currentQuestionIdx < unanswered.length - 1 ? "Next Question" : "Complete Setup"}
+            {currentQuestionIdx < unanswered.length - 1 ? "Next Question" : "Complete"}
             <ArrowRight size={20} />
           </button>
         </div>

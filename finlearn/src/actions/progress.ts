@@ -100,3 +100,25 @@ export async function getUserHistory() {
     };
   });
 }
+
+export async function clearUserProgress() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.userProgress.upsert({
+    where: { userId: session.user.id },
+    update: {
+      totalScore: 0,
+      rewardPoints: 0,
+    },
+    create: {
+      userId: session.user.id,
+      totalScore: 0,
+      rewardPoints: 0,
+    },
+  });
+
+  revalidatePath("/");
+}

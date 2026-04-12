@@ -4,6 +4,7 @@ import { useState } from "react";
 import { flashcardQuestions } from "@/data/questions";
 import { submitAnswer } from "@/actions/progress";
 import { CheckCircle2, XCircle, RefreshCw, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function FlashcardsPage() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -11,6 +12,7 @@ export default function FlashcardsPage() {
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; explanation: string; correctIndex: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [sessionScore, setSessionScore] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const activeQuestion = flashcardQuestions[currentIdx];
 
@@ -34,8 +36,63 @@ export default function FlashcardsPage() {
   const handleNext = () => {
     setFeedback(null);
     setSelectedOpt(null);
-    setCurrentIdx((prev) => (prev + 1) % flashcardQuestions.length);
+    if (currentIdx === flashcardQuestions.length - 1) {
+      setIsCompleted(true);
+    } else {
+      setCurrentIdx((prev) => prev + 1);
+    }
   };
+
+  const handleRestart = () => {
+    setCurrentIdx(0);
+    setSelectedOpt(null);
+    setFeedback(null);
+    setSessionScore(0);
+    setIsCompleted(false);
+  };
+
+  if (isCompleted) {
+    return (
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="glass rounded-3xl p-12 shadow-2xl border border-white/5 bg-gradient-to-br from-surface to-background-app mb-8">
+          <div className="flex justify-center mb-6 text-success">
+            <CheckCircle2 size={80} />
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-4">All Cards Completed!</h1>
+          <p className="text-xl text-text-muted mb-8">
+            Great job! You've gone through all the flashcards in this set.
+          </p>
+          
+          <div className="grid grid-cols-2 gap-6 mb-10">
+            <div className="glass p-6 rounded-2xl">
+              <p className="text-text-muted text-sm font-bold uppercase tracking-wider mb-2">Final Score</p>
+              <p className="text-4xl font-black text-white">{sessionScore}</p>
+            </div>
+            <div className="glass p-6 rounded-2xl">
+              <p className="text-text-muted text-sm font-bold uppercase tracking-wider mb-2">Cards Reviewed</p>
+              <p className="text-4xl font-black text-secondary">{flashcardQuestions.length}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={handleRestart}
+              className="w-full py-5 rounded-2xl bg-gradient-to-r from-secondary to-primary text-white font-bold text-lg transition-transform hover:scale-[1.02] flex items-center justify-center gap-3 shadow-xl shadow-secondary/20"
+            >
+              <RefreshCw size={24} />
+              Start Again
+            </button>
+            <Link 
+              href="/"
+              className="w-full py-5 rounded-2xl glass hover:bg-white/10 text-white font-bold text-lg transition-all flex items-center justify-center gap-2 border border-white/10"
+            >
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -133,7 +190,7 @@ export default function FlashcardsPage() {
                   className="w-full py-5 rounded-2xl bg-gradient-to-r from-secondary to-primary text-white font-bold text-lg transition-transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-xl shadow-secondary/20"
                 >
                   <RefreshCw size={20} />
-                  Next Flashcard
+                  {currentIdx === flashcardQuestions.length - 1 ? "Finish Set" : "Next Flashcard"}
                 </button>
               </div>
             )}

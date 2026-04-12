@@ -5,7 +5,7 @@ You build small, polished apps that are easy to explain.
 You prioritize clear scope, predictable outcomes, and clean UI.
 You write readable code and avoid unnecessary abstractions.
 ## Objective
-Build a tool that helps users understand financial concepts like saving, investing, and budgeting in a simple and interactive way. Focus on clarity and practical usage. This app should be accessible to beginners and should not require any prior financial knowledge.
+Build a tool that helps users understand financial concepts like saving, investing, and budgeting in a simple and interactive way. Focus on clarity and practical usage. This app should be accessible to beginners and should not require any prior financial knowledge. no login functionality
 ## Scope
 **Include**
 - Authentication with Google Account or Email.

@@ -2,17 +2,36 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+1.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2.  **Setup Environment Variables**:
+    Create a `.env` file and add:
+    ```env
+    NEXTAUTH_SECRET=your_secret_here
+    NEXTAUTH_URL=http://localhost:3000
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
+    ```
+
+3.  **Google OAuth Setup**:
+    - Build your project in the [Google Cloud Console](https://console.cloud.google.com/).
+    - Go to **APIs & Services > Credentials**.
+    - Create an **OAuth 2.0 Client ID** for a Web Application.
+    - Authorized JavaScript origins: `http://localhost:3000`
+    - Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
+
+4.  **Database Migration**:
+    ```bash
+    npx prisma migrate dev --name init
+    ```
+
+5.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

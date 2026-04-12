@@ -10,31 +10,92 @@ jest.mock('@/actions/progress', () => ({
   })
 }));
 
-describe('Flashcards Page', () => {
-  it('renders flashcard questions and handles correct interactions', async () => {
+// Mock the questions data to have only 2 questions for easier testing of completion
+jest.mock('@/data/questions', () => ({
+  flashcardQuestions: [
+    {
+      id: "fc-1",
+      text: "Test Question 1",
+      options: ["Correct 1", "Wrong 1"],
+      correctOptionIndex: 0,
+      explanation: "Exp 1"
+    },
+    {
+      id: "fc-2",
+      text: "Test Question 2",
+      options: ["Correct 2", "Wrong 2"],
+      correctOptionIndex: 0,
+      explanation: "Exp 2"
+    }
+  ]
+}));
+
+describe('Flashcards Page Integration', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('completes the full flashcard flow: answer -> next -> answer -> completion -> restart', async () => {
     render(<FlashcardsPage />);
     
-    // Initial render checks
-    expect(screen.getByText('Flashcards')).toBeInTheDocument();
-    const flipButton = screen.getByText('Flip Card');
-    expect(flipButton).toBeDisabled();
+    // CARD 1
+    expect(screen.getByText('Card 1 of 2')).toBeInTheDocument();
+    expect(screen.getByText('Test Question 1')).toBeInTheDocument();
 
-    // Select the first option
-    // Wait, the first question in our mock data is "In the 50/30/20 rule..."
-    // We can find button with text "Wants (e.g., dining out, hobbies)"
-    const optionButton = screen.getByText('Wants (e.g., dining out, hobbies)');
-    fireEvent.click(optionButton);
+    // Select correct option
+    fireEvent.click(screen.getByText('Correct 1'));
+    fireEvent.click(screen.getByText('Flip Card'));
 
-    // Button should now be enabled
-    expect(flipButton).not.toBeDisabled();
-
-    // Click flip
-    fireEvent.click(flipButton);
-
-    // Verify mock response is rendered
     await waitFor(() => {
       expect(screen.getByText('Spot on!')).toBeInTheDocument();
-      expect(screen.getByText('Mock correct explanation')).toBeInTheDocument();
+      expect(screen.getByText('Exp 1')).toBeInTheDocument();
+    });
+
+    // Move to next card
+    fireEvent.click(screen.getByText('Next Flashcard'));
+
+    // CARD 2
+    expect(screen.getByText('Card 2 of 2')).toBeInTheDocument();
+    expect(screen.getByText('Test Question 2')).toBeInTheDocument();
+
+    // Select correct option
+    fireEvent.click(screen.getByText('Correct 2'));
+    fireEvent.click(screen.getByText('Flip Card'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Spot on!')).toBeInTheDocument();
+    });
+
+    // Finish set
+    fireEvent.click(screen.getByText('Finish Set'));
+
+    // COMPLETION SCREEN
+    await waitFor(() => {
+      expect(screen.getByText('All Cards Completed!')).toBeInTheDocument();
+      expect(screen.getByText('20')).toBeInTheDocument(); // 2 correct answers * 10 points
+    });
+
+    // Start Again
+    fireEvent.click(screen.getByText('Start Again'));
+
+    // Verify it reset to Card 1
+    expect(screen.getByText('Card 1 of 2')).toBeInTheDocument();
+    expect(screen.getByText('Test Question 1')).toBeInTheDocument();
+  });
+
+  it('shows session score correctly during the quiz', async () => {
+    render(<FlashcardsPage />);
+    
+    // Initial session score
+    expect(screen.getByText('0')).toBeInTheDocument();
+
+    // Answer correctly
+    fireEvent.click(screen.getByText('Correct 1'));
+    fireEvent.click(screen.getByText('Flip Card'));
+
+    await waitFor(() => {
+      // Score should update to 10
+      expect(screen.getAllByText('10').length).toBeGreaterThan(0);
     });
   });
 });

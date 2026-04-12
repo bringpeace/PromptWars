@@ -5,6 +5,7 @@ import { onboardingQuestions } from "@/data/questions";
 import Link from "next/link";
 import { BookOpen, Award, TrendingUp, Layers } from "lucide-react";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
+import ClearScoreButton from "@/components/ClearScoreButton";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -51,6 +52,7 @@ export default async function Home() {
           <h1 className="text-4xl font-bold mb-2">Hello, {session.user.name || 'Student'}! 👋</h1>
           <p className="text-text-muted text-lg">Here's your learning progress today.</p>
         </div>
+        <ClearScoreButton />
       </header>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-10">
