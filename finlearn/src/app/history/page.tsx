@@ -53,7 +53,7 @@ export default async function HistoryPage() {
                     }
 
                     return (
-                      <div key={i} className={\`p-3 rounded-lg text-sm flex items-center gap-3 \${item.isCorrect ? 'bg-success/10 text-success border border-success/20' : 'bg-error/10 text-error border border-error/20'}\`}>
+                      <div key={i} className={`p-3 rounded-lg text-sm flex items-center gap-3 ${item.isCorrect ? 'bg-success/10 text-success border border-success/20' : 'bg-error/10 text-error border border-error/20'}`}>
                         <span className="font-bold opacity-50 uppercase text-xs tracking-wider">Your Answer:</span>
                         <span className="font-medium">{opt}</span>
                       </div>

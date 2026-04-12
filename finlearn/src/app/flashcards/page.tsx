@@ -60,7 +60,7 @@ export default function FlashcardsPage() {
           <div className="absolute top-0 right-0 w-full h-2 bg-white/5 rounded-t-3xl overflow-hidden">
             <div 
               className="h-full bg-secondary transition-all duration-500 ease-out"
-              style={{ width: \`\${((currentIdx + 1) / flashcardQuestions.length) * 100}%\` }}
+              style={{ width: `${((currentIdx + 1) / flashcardQuestions.length) * 100}%` }}
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function FlashcardsPage() {
                   key={i}
                   onClick={() => !feedback && setSelectedOpt(i)}
                   disabled={!!feedback}
-                  className={\`w-full text-left p-5 rounded-2xl transition-all duration-200 text-lg flex items-center justify-between \${styleClass}\`}
+                  className={`w-full text-left p-5 rounded-2xl transition-all duration-200 text-lg flex items-center justify-between ${styleClass}`}
                 >
                   <span>{opt}</span>
                   {feedback && i === feedback.correctIndex && <CheckCircle2 className="text-success inline-block ml-4 flex-shrink-0" />}
@@ -118,7 +118,7 @@ export default function FlashcardsPage() {
               </button>
             ) : (
               <div className="animate-in fade-in slide-in-from-bottom-4">
-                <div className={\`p-6 rounded-2xl mb-6 flex gap-4 \${feedback.isCorrect ? 'bg-success/10 border-l-4 border-success text-success' : 'bg-error/10 border-l-4 border-error text-error'}\`}>
+                <div className={`p-6 rounded-2xl mb-6 flex gap-4 ${feedback.isCorrect ? 'bg-success/10 border-l-4 border-success text-success' : 'bg-error/10 border-l-4 border-error text-error'}`}>
                   <div className="flex-shrink-0 mt-1">
                     {feedback.isCorrect ? <CheckCircle2 size={28} /> : <XCircle size={28} />}
                   </div>

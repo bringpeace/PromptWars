@@ -95,6 +95,45 @@ export const flashcardQuestions: Question[] = [
     ],
     correctOptionIndex: 1,
     explanation: "When you buy a stock, you're buying a piece of ownership in a company. A bond is essentially a loan you make to a company or government."
+  },
+  {
+    id: "fc-4",
+    chapterId: "saving-for-emergencies",
+    text: "Which of these is the most 'liquid' asset (easy to turn into cash)?",
+    options: [
+      "A house",
+      "A savings account",
+      "A retirement fund",
+      "Rare collectible cards"
+    ],
+    correctOptionIndex: 1,
+    explanation: "Liquidity refers to how quickly an asset can be converted to cash. Savings accounts are highly liquid compared to real estate or collectibles."
+  },
+  {
+    id: "fc-5",
+    chapterId: "budgeting-basics",
+    text: "What does 'Pay Yourself First' mean?",
+    options: [
+      "Buying a treat after a long week",
+      "Prioritizing savings as soon as you receive your paycheck",
+      "Paying for all your subscriptions first",
+      "Only spending money on yourself"
+    ],
+    correctOptionIndex: 1,
+    explanation: "Paying yourself first means setting aside savings before paying bills or discretionary expenses, ensuring your future is funded."
+  },
+  {
+    id: "fc-6",
+    chapterId: "investing-101",
+    text: "What is the primary risk of keeping all your money in a standard checking account for 40 years?",
+    options: [
+      "The bank might close",
+      "The money will lose purchasing power due to inflation",
+      "The government will take it",
+      "There is no risk"
+    ],
+    correctOptionIndex: 1,
+    explanation: "Inflation gradually increases the price of goods, so money that doesn't earn interest will buy less over time."
   }
 ];
 

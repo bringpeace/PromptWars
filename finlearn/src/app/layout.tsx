@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Finlearn - Financial Literacy App",
-  description: "Learn financial basics, budgeting, and investing.",
+  title: "FinLearn | Master Your Money",
+  description: "Accelerate your financial literacy journey with interactive quizzes, interactive flashcards, and gamified learning. Understand budgeting, investing, and saving today.",
+  keywords: ["financial literacy", "budgeting", "investing", "saving", "financial education", "gamified learning"],
+  authors: [{ name: "FinLearn Team" }],
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
 };
 
 export default function RootLayout({
@@ -27,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
     >
-      <body className="flex min-h-screen flex-col bg-background-app text-text-main">
+      <body className="flex min-h-screen flex-col bg-background-app text-text-main selection:bg-primary/30 selection:text-white">
         <Providers>
           <LayoutWrapper>{children}</LayoutWrapper>
         </Providers>

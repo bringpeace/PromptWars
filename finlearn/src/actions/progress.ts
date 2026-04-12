@@ -20,37 +20,41 @@ export async function submitAnswer(questionId: string, selectedOptionIndex: numb
 
   const isCorrect = question.correctOptionIndex === selectedOptionIndex;
   
-  // Save answer
-  await prisma.userAnswer.create({
-    data: {
-      userId,
-      questionId,
-      selectedOptionIndex,
-      isCorrect,
-    },
-  });
-
-  // Ensure progress exists
-  let progress = await prisma.userProgress.findUnique({
-    where: { userId },
-  });
-
-  if (!progress) {
-    progress = await prisma.userProgress.create({
-      data: { userId, totalScore: 0, rewardPoints: 0 },
-    });
-  }
-
-  // Update score (e.g., 10 points for correct)
-  if (isCorrect) {
-    await prisma.userProgress.update({
-      where: { userId },
+  // Use a transaction to ensure both answer and progress are updated atomically
+  await prisma.$transaction(async (tx) => {
+    // Save answer
+    await tx.userAnswer.create({
       data: {
-        totalScore: { increment: 10 },
-        rewardPoints: { increment: 5 },
+        userId,
+        questionId,
+        selectedOptionIndex,
+        isCorrect,
       },
     });
-  }
+
+    // Handle progress updates
+    const existingProgress = await tx.userProgress.findUnique({
+      where: { userId },
+    });
+
+    if (!existingProgress) {
+      await tx.userProgress.create({
+        data: { 
+          userId, 
+          totalScore: isCorrect ? 10 : 0, 
+          rewardPoints: isCorrect ? 5 : 0 
+        },
+      });
+    } else if (isCorrect) {
+      await tx.userProgress.update({
+        where: { userId },
+        data: {
+          totalScore: { increment: 10 },
+          rewardPoints: { increment: 5 },
+        },
+      });
+    }
+  });
 
   revalidatePath("/history");
   revalidatePath("/");
